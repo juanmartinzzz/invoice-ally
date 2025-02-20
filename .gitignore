@@ -1,0 +1,18 @@
+# Node modules
+node_modules
+
+
+# Env files
+.env
+.env.dev
+.env.prod
+
+
+
+# OS and IDE files
+.DS_Store
+.vscode
+
+
+# Ignore generations directory
+generation
