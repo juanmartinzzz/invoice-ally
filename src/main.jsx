@@ -1,10 +1,24 @@
 import './index.css';
-import App from './App.jsx';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import MainPortal from './MainPortal/MainPortal.jsx';
+import Invoices from './Components/Invoices/Invoices.jsx';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-createRoot(document.getElementById('root') || document.body).render(
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <MainPortal />,
+  },
+  {
+    path: '/invoices',
+    element: <Invoices />,
+  },
+]);
+
+createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </StrictMode>
 );
