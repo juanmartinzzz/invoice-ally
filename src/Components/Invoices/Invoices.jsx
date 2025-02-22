@@ -1,83 +1,93 @@
 import FeatureList from "./FeatureList";
-import { useEffect, useState } from "react";
-import telegram from "../../integrations/telegram";
+import { Fragment, useEffect, useState } from "react";
 import entityMetadata from "../../data/EntityMetadata";
+import supabaseService from "../../integrations/supabase";
+import { invoiceTemplate } from "../../data/models/invoice";
 
 const invoiceFieldNames = [
   'companyName',
-  'number',
+  'invoiceNumber',
   'clientName',
   'contactType',
-  'contactLanguage',
+  'contactLanguageCode',
   'emailOrPhone',
   'invoiceLink',
   'invoiceNickname',
 ];
 
-const FieldHint = ({title, description}) => {
-  return (
-    <td className="p-1">
-      <div className="font-bold leading-none mb-1">{title}</div>
-
-      <p className="leading-none">{description}</p>
-    </td>
-  )
-}
-
 const Invoices = () => {
-  const [invoices, setInvoices] = useState([
-    {number: 1, contactType: 'email', contactLanguage: 'english'},
-    {number: 2, contactType: 'email', contactLanguage: 'english'},
-    {number: 3, contactType: 'email', contactLanguage: 'english'},
-    {number: 4, contactType: 'phone', contactLanguage: 'english'},
-    {number: 5, contactType: 'email', contactLanguage: 'spanish'},
-    {number: 6, contactType: 'email', contactLanguage: 'english'},
-    {number: 7, contactType: 'email', contactLanguage: 'english'},
-    {number: 8, contactType: 'phone', contactLanguage: 'spanish'},
-    {number: 9, contactType: 'email', contactLanguage: 'french'},
-    {number: 10, contactType: 'email', contactLanguage: 'english'},
-  ]);
-  const [selectedInvoice, setSelectedInvoice] = useState(1);
+  const [invoices, setInvoices] = useState([]);
+  const [selectedInvoice, setSelectedInvoice] = useState(null);
+  const [editedInvoiceIndexes, setEditedInvoiceIndexes] = useState([]);
 
   const updateCompanyNameForAllInvoices = ({companyName}) => {
     setInvoices(invoices.map(invoice => ({...invoice, companyName})));
+    const test = [];
+    invoices.map((invoice, index) => {
+      !editedInvoiceIndexes.includes(index) && test.push(index);
+    });
+    setEditedInvoiceIndexes([...editedInvoiceIndexes, ...test]);
+  }
+
+  const upsertInvoices = () => {
+    editedInvoiceIndexes.forEach(index => {
+      supabaseService.invoice.upsert({invoiceData: invoices[index]});
+    });
   }
 
   useEffect(() => {
     // telegram.sendMessage({message: 'Hello, world!'});
+    supabaseService.invoice.getByOwnerId({ownerId: '111'}).then((invoices) => {
+      setInvoices([...invoices, invoiceTemplate]);
+    });
   }, []);
+
+  const handleSelectInvoice = ({index}) => {
+    setSelectedInvoice(index);
+  }
+
+  const getOnChange = ({fieldName, index}) => ({target}) => {
+    setInvoices(invoices.map((invoice, mapIndex) => mapIndex === index ? {...invoice, [fieldName]: target.value} : invoice));
+    !editedInvoiceIndexes.includes(index) && setEditedInvoiceIndexes([...editedInvoiceIndexes, index]);
+  }
 
   return (
     <div className="p-8">
       <h1 className="text-2xl font-bold text-center">Invoices</h1>
+      <h1 className="text-2xl font-bold text-center">{editedInvoiceIndexes.join(', ')}</h1>
+      <button className="bg-secondary mb-4 text-white px-4 py-1 rounded cursor-pointer" onClick={() => upsertInvoices()}>Save</button>
 
       <div className="min-w-fit bg-light rounded p-2">
         <table className="min-w-full border-collapse text-xs">
-          <thead className="">
+          <thead>
             <tr>
-              {invoiceFieldNames.map((fieldName) => (
-                <th className="font-bold p-1 min-w-32">{entityMetadata.invoice[fieldName].columnHeader}</th>
+              {invoiceFieldNames.map(fieldName => (
+                <th className="font-bold p-1 min-w-32" key={fieldName}>{entityMetadata.invoice[fieldName].columnHeader}</th>
               ))}
             </tr>
           </thead>
 
           <tbody>
             {invoices.map((invoice, index) => (
-              <>
-                <tr className={`${index !== invoices.length - 1 && 'border-b border-gray-300'}`}>
+              <Fragment key={index}>
+                <tr className={`${selectedInvoice === index && 'bg-white'} ${index !== invoices.length - 1 && 'border-b border-gray-300'}`}>
                   {invoiceFieldNames.map((fieldName) => (
-                    <td key={fieldName}>
-                      {entityMetadata.invoice[fieldName].getInputElement({ invoice, updateCompanyNameForAllInvoices })}
+                    <td className="px-2" key={fieldName} onClick={() => handleSelectInvoice({index})}>
+                      {entityMetadata.invoice[fieldName].getInputElement({ invoice, updateCompanyNameForAllInvoices, onChange: getOnChange({fieldName, index}) })}
                     </td>
                   ))}
                 </tr>
 
-                <tr className={selectedInvoice === invoice.number ? '' : 'hidden'}>
+                <tr className={selectedInvoice !== index && 'hidden'}>
                   {invoiceFieldNames.map((fieldName) => (
-                    <FieldHint title={entityMetadata.invoice[fieldName].helperTitle} description={entityMetadata.invoice[fieldName].helperDescription} />
+                    <td className="p-2 align-text-top bg-white" key={fieldName}>
+                      <div className="font-bold leading-none mb-1 text-secondary">{entityMetadata.invoice[fieldName].helperTitle}</div>
+
+                      <p className="leading-none">{entityMetadata.invoice[fieldName].helperDescription}</p>
+                    </td>
                   ))}
                 </tr>
-              </>
+              </Fragment>
             ))}
           </tbody>
         </table>

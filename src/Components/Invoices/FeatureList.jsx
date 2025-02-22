@@ -1,10 +1,10 @@
-import { CheckCircle, Clock, Timer } from "lucide-react";
+import { CheckCircle, Clock } from "lucide-react";
 
 const FeatureList = ({features}) => {
   return (
     <div className="mt-8 flex flex-wrap gap-4 text-xs">
-      {features.map((feature) => (
-        <div className="w-72 flex flex-col gap-1 p-2 rounded shadow">
+      {features.map((feature, index) => (
+        <div className="w-72 flex flex-col gap-1 p-2 rounded shadow" key={index}>
           <div className="flex justify-between items-center gap-2">
             <h1 className="text-sm font-bold leading-tight">{feature.title}</h1>
 

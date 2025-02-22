@@ -8,53 +8,53 @@ const entityMetadata = {
       required: true,
       inputType: 'text',
       columnHeader: 'You',
-      helperTitle: 'Your business or name',
+      helperTitle: 'How this client recognizes you',
       helperDescription: 'Help your customers clearly understand who is contacting them.',
-      getInputElement: ({invoice, updateCompanyNameForAllInvoices}) => (
+      getInputElement: ({invoice, onChange, updateCompanyNameForAllInvoices}) => (
         <div className="flex gap-1">
-          <input value={invoice.companyName} type="text" placeholder="Your company or name" className="w-full border-gray-300 px-1 focus:border" />
+          <input value={invoice.companyName} type="text" placeholder="Your company or name" className="w-full border-gray-300 px-1 focus:border" onChange={onChange} />
 
-          <ElementWithTooltip element={<ReplaceAll className="w-4 h-4 cursor-pointer" onClick={() => updateCompanyNameForAllInvoices({companyName: invoices[index].companyName})} />} title="Use this value for all invoices" />
+          <ElementWithTooltip element={<ReplaceAll className="w-4 h-4 cursor-pointer" onClick={() => updateCompanyNameForAllInvoices({companyName: invoice.companyName})} />} title="Use this value for all invoices" />
         </div>
       ),
     },
-    number: {
+    invoiceNumber: {
       required: true,
       inputType: 'text',
       columnHeader: 'Number',
-      helperTitle: 'Invoice Number',
-      helperDescription: 'The same invoice number your accounting system uses, or the sequential number you assigned, so you can easily match it with your records.',
-      getInputElement: ({invoice}) => (
-        <input type="text" placeholder="Invoice Number" className="w-full border-gray-300 px-1 focus:border" />
+      helperTitle: 'A link between your accounting and this service',
+      helperDescription: 'The same number your accounting system assigned this invoice, or the sequential number you assigned manually, so you can easily match it with your records.',
+      getInputElement: ({invoice, onChange}) => (
+        <input value={invoice.number} type="text" placeholder="Invoice Number" className="w-full border-gray-300 px-1 focus:border" onChange={onChange} />
       )
     },
     clientName: {
       required: true,
       inputType: 'text',
       columnHeader: 'Client Name',
-      helperTitle: 'Client Name',
-      helperDescription: 'Enter the full name of the client.',
-      getInputElement: ({invoice}) => (
-        <input type="text" placeholder="Client Name" className="w-full border-gray-300 px-1 focus:border" />
+      helperTitle: 'How to address this client',
+      helperDescription: 'Enter the name of the client or their business, as it will appear on messages sent to them to remind them they need to pay.',
+      getInputElement: ({invoice, onChange}) => (
+        <input value={invoice.clientName} type="text" placeholder="Client Name" className="w-full border-gray-300 px-1 focus:border" onChange={onChange} />
       )
     },
     contactType: {
       required: true,
       inputType: 'select',
       columnHeader: 'Contact Type',
-      helperTitle: 'Contact Type',
-      helperDescription: 'Select the type of contact you want to use.',
-      getInputElement: ({invoice}) => (
-        <SelectInput options={[{value: 'email', label: 'Email'}, {value: 'phone', label: 'Phone'}]} value={invoice.contactType} onChange={() => {}} />
+      helperTitle: 'Best way to reach this client',
+      helperDescription: 'Select how you want us to contact the client.',
+      getInputElement: ({invoice, onChange}) => (
+        <SelectInput value={invoice.contactType} options={[{value: 'email', label: 'Email'}, {value: 'phone', label: 'Phone'}]} onChange={onChange} />
       )
     },
-    contactLanguage: {
+    contactLanguageCode: {
       inputType: 'select',
       columnHeader: 'Contact Language',
       helperTitle: 'Contact Language',
       helperDescription: 'Select the language of the contact you want to use.',
-      getInputElement: ({invoice}) => (
-        <SelectInput options={[{value: 'english', label: 'English'}, {value: 'spanish', label: 'Spanish'}]} value={invoice.contactLanguage} onChange={() => {}} />
+      getInputElement: ({invoice, onChange}) => (
+        <SelectInput value={invoice.contactLanguageCode} options={[{value: 'en', label: 'English'}, {value: 'es', label: 'Spanish'}, {value: 'fr', label: 'French'}]} onChange={onChange} />
       )
     },
     emailOrPhone: {
@@ -63,8 +63,8 @@ const entityMetadata = {
       columnHeader: 'Email/Phone',
       helperTitle: 'Email/Phone',
       helperDescription: 'Enter the email or phone number of the contact you want to use.',
-      getInputElement: ({invoice}) => (
-        <input type="text" placeholder="Email/Phone" className="w-full border-gray-300 px-1 focus:border" />
+      getInputElement: ({invoice, onChange}) => (
+        <input value={invoice.emailOrPhone} type="text" placeholder="Email/Phone" className="w-full border-gray-300 px-1 focus:border" onChange={onChange} />
       )
     },
     invoiceLink: {
@@ -72,17 +72,17 @@ const entityMetadata = {
       columnHeader: 'Invoice Link',
       helperTitle: 'Invoice Link',
       helperDescription: 'Enter the link to the invoice you want to use.',
-      getInputElement: ({invoice}) => (
-        <input type="text" placeholder="Invoice Link" className="w-full border-gray-300 px-1 focus:border" />
+      getInputElement: ({invoice, onChange}) => (
+        <input value={invoice.invoiceLink} type="text" placeholder="Invoice Link" className="w-full border-gray-300 px-1 focus:border" onChange={onChange} />
       )
     },
     invoiceNickname: {
       inputType: 'text',
       columnHeader: 'Nickname',
       helperTitle: 'What this invoice is all about',
-      helperDescription: 'A phrase that helps you remember who you sent the invoice to and which work they will pay for.',
-      getInputElement: ({invoice}) => (
-        <input type="text" placeholder="Invoice Nickname" className="w-full border-gray-300 px-1 focus:border" />
+      helperDescription: 'A phrase to help you remember who you sent the invoice to, and which work you did for them.',
+      getInputElement: ({invoice, onChange}) => (
+        <input value={invoice.invoiceNickname} type="text" placeholder="Invoice Nickname" className="w-full border-gray-300 px-1 focus:border" onChange={onChange} />
       )
     }
   }
