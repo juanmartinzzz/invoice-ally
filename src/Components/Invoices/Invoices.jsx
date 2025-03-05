@@ -109,20 +109,19 @@ const Invoices = () => {
         </table>
       </div>
 
+      <div className="mt-8">
+        <div className="text-lg font-bold leading-tight">Coming features</div>
+        <div className="text-sm text-gray-700 leading-tight">See what's coming next - vote on what you want to see.</div>
+      </div>
+
       <FeatureList features={[
-        {
-          done: true,
-          title: 'Friendly selects',
-          description: 'Select inputs with 3 or fewer options NOT displayed as dropdown. Instead the options are displayed as a line of buttons, with the one selected clearly highlighted.'
-        },
-        {
-          done: true,
-          title: 'Saving indicator',
-          description: 'When you save, a loading indicator is shown to indicate which invoice is being saved.'
-        },
         {
           title: 'Auto save',
           description: 'Even without your intervention, changes are saved automatically every 10 seconds.'
+        },
+        {
+          title: 'Democratic features',
+          description: 'Allow users to vote on what features they want to see next.'
         },
         {
           title: 'Clear status',
@@ -143,6 +142,16 @@ const Invoices = () => {
         {
           title: 'The haggler',
           description: 'A feature that allows you to haggle with the client. You can offer a discount for prompt payment or a discount if they pay their entire balance.'
+        },
+        {
+          done: true,
+          title: 'Friendly selects',
+          description: 'Select inputs with 3 or fewer options NOT displayed as dropdown. Instead the options are displayed as a line of buttons, with the one selected clearly highlighted.'
+        },
+        {
+          done: true,
+          title: 'Saving indicator',
+          description: 'When you save, a loading indicator is shown to indicate which invoice is being saved.'
         },
       ]} />
     </div>
