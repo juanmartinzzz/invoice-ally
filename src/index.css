@@ -19,6 +19,7 @@
 
   --animate-float: float 6s ease-in-out infinite;
   --animate-slot-machine: slotMachine 3s linear infinite;
+  --animate-spin: spin 0.3s linear infinite;
 
   @keyframes float {
     0%, 100% { transform: translateY(0); }
@@ -30,6 +31,11 @@
     35% { transform: translateY(0); }
     65% { transform: translateY(0); }
     100% { transform: translateY(-4em); }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 }
 

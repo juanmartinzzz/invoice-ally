@@ -1,6 +1,6 @@
 import { ReplaceAll } from "lucide-react";
-import ElementWithTooltip from "../Components/Global/ElementWithTooltip";
 import SelectInput from "../Components/Global/SelectInput";
+import ElementWithTooltip from "../Components/Global/ElementWithTooltip";
 
 const entityMetadata = {
   invoice: {
@@ -12,7 +12,7 @@ const entityMetadata = {
       helperDescription: 'Help your customers clearly understand who is contacting them.',
       getInputElement: ({invoice, onChange, updateCompanyNameForAllInvoices}) => (
         <div className="flex gap-1">
-          <input value={invoice.companyName} type="text" placeholder="Your company or name" className="w-full border-gray-300 px-1 focus:border" onChange={onChange} />
+          <input value={invoice.companyName} type="text" placeholder="Your company or name" className="w-full border-gray-300 pr-1 focus:border" onChange={onChange} />
 
           <ElementWithTooltip element={<ReplaceAll className="w-4 h-4 cursor-pointer" onClick={() => updateCompanyNameForAllInvoices({companyName: invoice.companyName})} />} title="Use this value for all invoices" />
         </div>
@@ -21,11 +21,11 @@ const entityMetadata = {
     invoiceNumber: {
       required: true,
       inputType: 'text',
-      columnHeader: 'Number',
+      columnHeader: 'Invoice Number',
       helperTitle: 'A link between your accounting and this service',
       helperDescription: 'The same number your accounting system assigned this invoice, or the sequential number you assigned manually, so you can easily match it with your records.',
       getInputElement: ({invoice, onChange}) => (
-        <input value={invoice.number} type="text" placeholder="Invoice Number" className="w-full border-gray-300 px-1 focus:border" onChange={onChange} />
+        <input value={invoice.invoiceNumber} type="text" placeholder="Invoice Number" className="w-full border-gray-300 pr-1 focus:border" onChange={onChange} />
       )
     },
     clientName: {
@@ -35,7 +35,7 @@ const entityMetadata = {
       helperTitle: 'How to address this client',
       helperDescription: 'Enter the name of the client or their business, as it will appear on messages sent to them to remind them they need to pay.',
       getInputElement: ({invoice, onChange}) => (
-        <input value={invoice.clientName} type="text" placeholder="Client Name" className="w-full border-gray-300 px-1 focus:border" onChange={onChange} />
+        <input value={invoice.clientName} type="text" placeholder="Client Name" className="w-full border-gray-300 pr-1 focus:border" onChange={onChange} />
       )
     },
     contactType: {
@@ -54,7 +54,7 @@ const entityMetadata = {
       helperTitle: 'Contact Language',
       helperDescription: 'Select the language of the contact you want to use.',
       getInputElement: ({invoice, onChange}) => (
-        <SelectInput value={invoice.contactLanguageCode} options={[{value: 'en', label: 'English'}, {value: 'es', label: 'Spanish'}, {value: 'fr', label: 'French'}]} onChange={onChange} />
+        <SelectInput value={invoice.contactLanguageCode} options={[{value: 'en', label: 'EN'}, {value: 'es', label: 'ES'}, {value: 'fr', label: 'FR'}]} onChange={onChange} />
       )
     },
     emailOrPhone: {
@@ -64,7 +64,7 @@ const entityMetadata = {
       helperTitle: 'Email/Phone',
       helperDescription: 'Enter the email or phone number of the contact you want to use.',
       getInputElement: ({invoice, onChange}) => (
-        <input value={invoice.emailOrPhone} type="text" placeholder="Email/Phone" className="w-full border-gray-300 px-1 focus:border" onChange={onChange} />
+        <input value={invoice.emailOrPhone} type="text" placeholder="Email/Phone" className="w-full border-gray-300 pr-1 focus:border" onChange={onChange} />
       )
     },
     invoiceLink: {
@@ -73,7 +73,7 @@ const entityMetadata = {
       helperTitle: 'Invoice Link',
       helperDescription: 'Enter the link to the invoice you want to use.',
       getInputElement: ({invoice, onChange}) => (
-        <input value={invoice.invoiceLink} type="text" placeholder="Invoice Link" className="w-full border-gray-300 px-1 focus:border" onChange={onChange} />
+        <input value={invoice.invoiceLink} type="text" placeholder="Invoice Link" className="w-full border-gray-300 pr-1 focus:border" onChange={onChange} />
       )
     },
     invoiceNickname: {
@@ -82,7 +82,7 @@ const entityMetadata = {
       helperTitle: 'What this invoice is all about',
       helperDescription: 'A phrase to help you remember who you sent the invoice to, and which work you did for them.',
       getInputElement: ({invoice, onChange}) => (
-        <input value={invoice.invoiceNickname} type="text" placeholder="Invoice Nickname" className="w-full border-gray-300 px-1 focus:border" onChange={onChange} />
+        <input value={invoice.invoiceNickname} type="text" placeholder="Invoice Nickname" className="w-full border-gray-300 pr-1 focus:border" onChange={onChange} />
       )
     }
   }

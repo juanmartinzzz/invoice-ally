@@ -6,7 +6,7 @@ const SelectInput = ({options, value, onChange}) => {
           <button
             key={option.value}
             onClick={() => onChange({target: {value: option.value}})}
-            className={`px-1 py-0.5 rounded ${value === option.value ? 'bg-primary text-white' : 'text-black'}`}
+            className={`px-1 py-0.33 rounded cursor-pointer ${value === option.value ? 'bg-primary text-white' : 'text-secondary'}`}
           >
             {option.label}
           </button>
