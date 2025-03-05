@@ -47,6 +47,7 @@ const supabaseService = {
         .from('invoices')
         .select('*')
         .eq('owner_id', ownerId)
+        .order('invoice_number')
 
       if (error) throw error
       return data.map(invoice => supabaseService.transformKeysToCamelCase({data: invoice}));
