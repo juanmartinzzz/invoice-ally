@@ -10,7 +10,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-// Service methods for invoices table
+// Service methods for supabase tables
 const supabaseService = {
   transformKeysToUnderscores({data}) {
     return Object.fromEntries(
@@ -28,7 +28,14 @@ const supabaseService = {
       ])
     );
   },
+  getLocalId() {
+    const localId = localStorage.getItem('localId');
+    if (!localId) {
+      localStorage.setItem('localId', Math.random().toString(36).substring(2, 14));
+    }
 
+    return localId;
+  },
   /// Invoice read and write operations
   invoice: {
     // Get all invoices
@@ -39,6 +46,17 @@ const supabaseService = {
 
       if (error) throw error
 
+      return data.map(invoice => supabaseService.transformKeysToCamelCase({data: invoice}));
+    },
+    // Get all invoices from a specific owner + all local invoices
+    async getByOwnerIdOrLocalId({ownerId, localId}) {
+      const { data, error } = await supabase
+        .from('invoices')
+        .select('*')
+        .or(`owner_id.eq.${ownerId}, local_id.eq.${localId}`)
+        .order('invoice_number')
+
+      if (error) throw error
       return data.map(invoice => supabaseService.transformKeysToCamelCase({data: invoice}));
     },
     // Get all invoices from a specific owner
@@ -65,7 +83,7 @@ const supabaseService = {
     },
     // Upsert invoice
     async upsert({invoiceData}) {
-      const upsertData = supabaseService.transformKeysToUnderscores({data: invoiceData});
+      const upsertData = supabaseService.transformKeysToUnderscores({data: {...invoiceData, local_id: supabaseService.getLocalId()}});
 
       if (!invoiceData.id) {
         const { data, error } = await supabase

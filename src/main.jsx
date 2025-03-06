@@ -2,11 +2,9 @@ import './index.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import MainPortal from './MainPortal/MainPortal.jsx';
+import Menubar from './components/Menubar/Menubar.jsx';
 import Invoices from './Components/Invoices/Invoices.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { ArrowBigRight, ArrowRight, ChevronRight, Clock, PersonStanding, User } from 'lucide-react';
-import Menubar from './components/Menubar/Menubar.jsx';
-
 
 const router = createBrowserRouter([
   {

@@ -3,6 +3,7 @@ import { Fragment, useEffect, useState } from "react";
 import entityMetadata from "../../data/EntityMetadata";
 import supabaseService from "../../integrations/supabase";
 import { invoiceTemplate } from "../../data/models/invoice";
+import ReminderFrequencyPicker from "./ReminderFrequencyPicker";
 import LoadingIndicator from "../../components/Global/LoadingIndicator";
 
 const invoiceFieldNames = [
@@ -11,6 +12,7 @@ const invoiceFieldNames = [
   'clientName',
   'contactType',
   'emailOrPhone',
+  'reminderFrequency',
   'contactLanguageCode',
   'invoiceLink',
   'invoiceNickname',
@@ -20,6 +22,7 @@ const Invoices = () => {
   const [invoices, setInvoices] = useState([]);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [editedInvoiceIndexes, setEditedInvoiceIndexes] = useState([]);
+  const [showReminderFrequencyPicker, setShowReminderFrequencyPicker] = useState(true);
   const [currentlyEditingInvoiceIndex, setCurrentlyEditingInvoiceIndex] = useState(null);
 
   const updateCompanyNameForAllInvoices = ({companyName}) => {
@@ -57,18 +60,23 @@ const Invoices = () => {
     setSelectedInvoice(index);
   }
 
-  const getOnChange = ({fieldName, index}) => ({target}) => {
-    setInvoices(invoices.map((invoice, mapIndex) => mapIndex === index ? {...invoice, [fieldName]: target.value} : invoice));
-    !editedInvoiceIndexes.includes(index) && setEditedInvoiceIndexes([...editedInvoiceIndexes, index]);
+  const getOnChange = ({fieldName}) => ({target}) => {
+    setInvoices(invoices.map((invoice, mapIndex) => mapIndex === selectedInvoice ? {...invoice, [fieldName]: target.value} : invoice));
+
+    // Add index to list that remembers invoices that must be saved
+    !editedInvoiceIndexes.includes(selectedInvoice) && setEditedInvoiceIndexes([...editedInvoiceIndexes, selectedInvoice]);
   }
 
   return (
     <div className="p-8">
+      <div>{selectedInvoice}</div>
       <h1 className="text-2xl font-bold text-center">Invoices</h1>
       <h1 className="text-2xl font-bold text-center">{editedInvoiceIndexes.join(', ')}</h1>
       <button className="bg-secondary mb-4 text-white px-4 py-1 rounded cursor-pointer" onClick={() => upsertInvoices()}>Save</button>
 
       <div className="min-w-fit bg-light rounded p-2">
+        {showReminderFrequencyPicker && <ReminderFrequencyPicker setShowReminderFrequencyPicker={setShowReminderFrequencyPicker} onChange={getOnChange({fieldName: 'reminderFrequency'})} />}
+
         <table className="min-w-full border-collapse text-xs">
           <thead>
             <tr>
@@ -86,9 +94,10 @@ const Invoices = () => {
                   <td>
                     {currentlyEditingInvoiceIndex === index && <LoadingIndicator size={4} />}
                   </td>
+
                   {invoiceFieldNames.map((fieldName) => (
                     <td className="py-1 pr-2" key={fieldName} onClick={() => handleSelectInvoice({index})}>
-                      {entityMetadata.invoice[fieldName].getInputElement({ invoice, updateCompanyNameForAllInvoices, onChange: getOnChange({fieldName, index}) })}
+                      {entityMetadata.invoice[fieldName].getInputElement({ invoice, updateCompanyNameForAllInvoices, setShowReminderFrequencyPicker, onChange: getOnChange({fieldName}) })}
                     </td>
                   ))}
                 </tr>
@@ -96,7 +105,7 @@ const Invoices = () => {
                 <tr className={`${selectedInvoice !== index && 'hidden'}`}>
                   <td className="bg-white"></td>
                   {invoiceFieldNames.map((fieldName) => (
-                    <td className="p-2 align-text-top bg-white" key={fieldName}>
+                    <td className="pt-2 pr-2 align-text-top bg-white" key={fieldName}>
                       <div className="font-bold leading-none mb-1 text-secondary">{entityMetadata.invoice[fieldName].helperTitle}</div>
 
                       <p className="leading-none">{entityMetadata.invoice[fieldName].helperDescription}</p>

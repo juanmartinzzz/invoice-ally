@@ -1,5 +1,6 @@
 import WelcomeSection from "./WelcomeSection";
 import BenefitsSection from "./BenefitsSection";
+import StepByStepInstructions from "./StepByStepInstructions";
 import QualityAssuranceSection from "./QualityAssuranceSection";
 import ServiceComparisonSection from "./ServiceComparisonSection";
 
@@ -12,6 +13,9 @@ const MainPortal = () => {
     <div className="min-h-screen bg-gradient-to-b from-light to-white">
       {/* Welcome Section */}
       <WelcomeSection scrollToComparison={scrollToComparison} />
+
+      {/* Step By Step Instructions */}
+      <StepByStepInstructions />
 
       {/* Service Comparison Section */}
       <ServiceComparisonSection />

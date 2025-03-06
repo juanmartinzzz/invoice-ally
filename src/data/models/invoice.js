@@ -1,5 +1,6 @@
 const invoice = {
   id: { type: 'number' },
+  localId: { type: 'string' },
   ownerId: { type: 'string' },
   companyName: { type: 'string' },
   invoiceNumber: { type: 'string' },

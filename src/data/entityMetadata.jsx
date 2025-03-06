@@ -67,6 +67,18 @@ const entityMetadata = {
         <input value={invoice.emailOrPhone} type="text" placeholder="Email/Phone" className="w-full border-gray-300 pr-1 focus:border" onChange={onChange} />
       )
     },
+    reminderFrequency: {
+      required: true,
+      inputType: 'custom',
+      columnHeader: 'Reminder Frequency',
+      helperTitle: 'What\'s an effective schedule',
+      helperDescription: 'Decide when you want our AI to send reminders to your client. E.g. times they are likely to pay attention such as office hours in their timezone.',
+      getInputElement: ({invoice, onChange, setShowReminderFrequencyPicker}) => (
+        <div className="cursor-pointer" onClick={() => setShowReminderFrequencyPicker(true)}>
+          {invoice.reminderFrequency || 'Pick'}
+        </div>
+      )
+    },
     invoiceLink: {
       inputType: 'text',
       columnHeader: 'Invoice Link',
