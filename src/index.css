@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --color-white: #ffffff;
+  --color-light: #e1edff;
+  --color-dark: #0e2642;
+  --color-primary: #3c338e;
+  --color-secondary: #515cca;
+  --color-info: #7b86eb;
+  --color-accent1: #f24d8a;
+  --color-accent2: #d05997;
+  --color-accent3: #e8a3be;
+  --color-success: #23ac69;
+  --color-warning: #e3ce21;
+  --color-danger: #f22610;
+
+  --font-sans: 'Inter', 'sans-serif';
+  --font-display: 'Manrope', 'sans-serif';
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-slot-machine: slotMachine 3s linear infinite;
+  --animate-spin: spin 0.3s linear infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+
+  @keyframes slotMachine {
+    0% { transform: translateY(4em); }
+    35% { transform: translateY(0); }
+    65% { transform: translateY(0); }
+    100% { transform: translateY(-4em); }
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+}
+
+.test {
+  border: 1px dotted red;
+}
