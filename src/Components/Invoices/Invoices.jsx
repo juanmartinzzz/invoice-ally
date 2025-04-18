@@ -22,7 +22,7 @@ const Invoices = () => {
   const [invoices, setInvoices] = useState([]);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [editedInvoiceIndexes, setEditedInvoiceIndexes] = useState([]);
-  const [showReminderFrequencyPicker, setShowReminderFrequencyPicker] = useState(true);
+  const [showReminderFrequencyPicker, setShowReminderFrequencyPicker] = useState(false);
   const [currentlyEditingInvoiceIndex, setCurrentlyEditingInvoiceIndex] = useState(null);
 
   const updateCompanyNameForAllInvoices = ({companyName}) => {
@@ -127,42 +127,35 @@ const Invoices = () => {
         {
           title: 'Auto save',
           description: 'Even without your intervention, changes are saved automatically every 10 seconds.'
-        },
-        {
+        },{
           title: 'Democratic features',
           description: 'Allow users to vote on what features they want to see next.'
-        },
-        {
+        },{
           title: 'Clear status',
           description: 'Clearly show if you have input all required info to send your customer reminders for an invoice.'
-        },
-        {
+        },{
           title: 'Smart views',
           description: 'A menu with super useful sorting / grouping options which changes the UI into multiple tables based on, for example, the person who is being charged on the invoice.'
-        },
-        {
+        },{
           title: 'Archive invoices',
           description: 'You can archive invoices you no longer need to have top-of-mind.'
-        },
-        {
+        },{
           title: 'Tone selection',
           description: 'Select the tone of the message you want to send. Choose between Friendly, Casual, Emphatic.'
-        },
-        {
+        },{
           title: 'The haggler',
           description: 'A feature that allows you to haggle with the client. You can offer a discount for prompt payment or a discount if they pay their entire balance.'
-        },
-        {
+        },{
           done: true,
           title: 'Friendly selects',
           description: 'Select inputs with 3 or fewer options NOT displayed as dropdown. Instead the options are displayed as a line of buttons, with the one selected clearly highlighted.'
-        },
-        {
+        },{
           done: true,
           title: 'Saving indicator',
           description: 'When you save, a loading indicator is shown to indicate which invoice is being saved.'
         },
       ]} />
+
     </div>
   )
 }
